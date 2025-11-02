@@ -7,12 +7,13 @@ package com.pblgllgs.job;
  */
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JobService {
 
     List<Job> findAllJobs();
     void createJob(Job job);
-    Job findJobById(Long id);
+    Optional<Job> findJobById(Long id);
     boolean deleteJobById(Long id);
     boolean updateJob(Long id, Job job);
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/jobs")
@@ -27,17 +28,17 @@ public class JobController {
         return new ResponseEntity<>(jobService.findAllJobs(), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<String> createJob(@RequestBody Job job) {
+    @PostMapping
+    public ResponseEntity<String> createJob(@RequestBody Job job){
         jobService.createJob(job);
-        return new ResponseEntity<>("job added successfully",HttpStatus.CREATED);
+        return new ResponseEntity<>("Job added successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Job> findById(@PathVariable Long id) {
-        Job job = jobService.findJobById(id);
-        if (job != null) {
-            return new ResponseEntity<>(jobService.findJobById(id), HttpStatus.ACCEPTED);
+        Optional<Job> job = jobService.findJobById(id);
+        if (job.isPresent()) {
+            return new ResponseEntity<>(job.get(), HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
